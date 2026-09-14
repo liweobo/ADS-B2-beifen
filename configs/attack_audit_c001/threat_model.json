@@ -1,0 +1,43 @@
+{
+  "schema_version": "adsb.attack-manifest.v1",
+  "title": "C0-01 targeted anomaly-to-normal audit threat model",
+  "frozen_decisions": {
+    "budget_scope": "normalized_raw6",
+    "derived_difference_consistency": "recomputed_from_raw",
+    "normal_class": 0,
+    "anomaly_class": 1,
+    "attack_target": "normal",
+    "evaluation_threshold": "frozen_clean_validation_threshold_per_model",
+    "run_terminology": "repeated aircraft splits",
+    "numeric_precision": "float32",
+    "result_retention": "all_directions",
+    "phys_penalty_pgd_semantics": "classification_plus_penalty_only_no_hard_kinematic_projection",
+    "phys_hybrid_pgd_semantics": "classification_plus_penalty_plus_explicit_hard_projection_schedule",
+    "validity_wording": "validity under the evaluated kinematic constraints"
+  },
+  "p1_frozen_parameters": {
+    "budget_abs_tol": 0.00001,
+    "kinematic_rel_tol": 0.00001,
+    "projection_residual_tol": 0.000001,
+    "alternating_projection_max_iterations": 100,
+    "feasible_random_max_resamples": 50
+  },
+  "attack_adequacy_operational_standards": {
+    "max_per_seed_asr_increment_k20_to_k50": 0.01,
+    "max_per_seed_asr_increment_r5_to_r10": 0.005,
+    "max_relative_median_target_loss_decrease": 0.01,
+    "max_whitebox_asr_deficit_vs_transfer_or_gradient_free": 0.01,
+    "minimum_directionally_compatible_attack_losses": 2
+  },
+  "p5_gradient_free_attack": {
+    "attack": "SPSA",
+    "subset_per_repeated_split": 128,
+    "subset_label": "original_anomaly",
+    "objective": "targeted_logit_margin",
+    "directions_per_iteration": 16,
+    "iterations": 128,
+    "maximum_queries_per_sample": 4096,
+    "paired_subset_and_seed_across_models": true
+  },
+  "prohibited_wording": ["operationally feasible", "physically realistic"]
+}

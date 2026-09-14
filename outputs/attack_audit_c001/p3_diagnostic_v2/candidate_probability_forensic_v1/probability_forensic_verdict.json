@@ -1,0 +1,149 @@
+{
+  "schema_version": "adsb.c001-p3d-v2-candidate-probability-forensic-verdict.v1",
+  "completed_at_utc": "2026-09-14T06:25:24.461Z",
+  "canonical_root": "E:\\ads-b\\ADS-B2 -beifen",
+  "scope": {
+    "goal": "resolve class_probability_sum integrity failure",
+    "new_attacks_executed": false,
+    "margin_or_cw_rerun": false,
+    "ce_rerun": false,
+    "threshold_checker_modified": false,
+    "raw_artifacts_modified": false,
+    "archived_probabilities_modified": false,
+    "reaggregation_executed": false,
+    "loss_results_interpreted": false,
+    "p4_through_p6_executed": false,
+    "manuscript_modified": false
+  },
+  "source_identity": {
+    "p2c_final_integrity": "PASS",
+    "r40_snapshot_sha256": "842d399a647699fdd7b038df5efb6d2907499cad094be44dfee47f2f5f528270",
+    "attack_fingerprint_sha256": "afd1389066e1c87fec8d6f9da42e4f7e2fb3384343f214d31c8eccf79bdbcf4f",
+    "configuration_sha256": "c9caa0281c7a314d78fea861604874100393ab6d5f1ae00d46d88926e06894e4",
+    "threshold_rows_parquet_sha256": "586b932fd11c5113eea9e81c622203e6e058ee040fc5ee32ac9ec36810eed8ea",
+    "status": "PASS"
+  },
+  "historical_checker": {
+    "source": "outputs/attack_audit_c001/p3_diagnostic_v2/threshold_precision_forensic_v1/forensic_driver.py:588",
+    "rule": "abs(float64(parsed p_anomaly) + float64(parsed p_normal) - 1.0) > 2e-8",
+    "sum_domain": "numpy.float64",
+    "comparator": ">",
+    "historical_tolerance": 2e-08,
+    "exact_equality": false,
+    "modified": false
+  },
+  "runtime_probability_semantics": {
+    "logits_dtype": "torch.float32",
+    "softmax_dtype": "torch.float32",
+    "autocast_active": false,
+    "class_count": 2,
+    "normal_class_index": 0,
+    "anomaly_class_index": 1,
+    "same_runtime_softmax": true,
+    "serialization": "Python float -> .9g decimal text -> gzip CSV",
+    "complete_original_binary_probability_pair": "NOT AVAILABLE",
+    "logit_replay": "NOT AVAILABLE"
+  },
+  "failure_scale": {
+    "total_rows": 101761920,
+    "original_checker_failures": 65934165,
+    "failure_rate": 0.6479257172034489,
+    "margin_failures": 32752702,
+    "cw_failures": 33181463,
+    "erm_failures": 32621712,
+    "cat_ad_failures": 33312453,
+    "max_abs_archived_sum_error": 8.968999998248961e-08,
+    "median_abs_archived_sum_error": 2.9999999928698173e-08,
+    "p95_abs_archived_sum_error": 6.329700008578243e-08,
+    "p99_abs_archived_sum_error": 7.694000014879521e-08,
+    "p99_9_abs_archived_sum_error": 8.526600003833096e-08
+  },
+  "probability_validity": {
+    "nan_count": 0,
+    "positive_inf_count": 0,
+    "negative_inf_count": 0,
+    "p_normal_below_zero_count": 0,
+    "p_anomaly_below_zero_count": 0,
+    "p_normal_above_one_count": 0,
+    "p_anomaly_above_one_count": 0,
+    "class_alignment_anomalies": 0,
+    "serialization_roundtrip_unexplained_mismatches": 0,
+    "raw_artifact_failures": 0
+  },
+  "representations": {
+    "A_archived_decimal_loaded_float64": {
+      "rows": 101761920,
+      "historical_checker_failures": 65934165
+    },
+    "B_fp32_restored": {
+      "rows": 101761920,
+      "B_sum_float32_exact_one_rows": 79420386,
+      "B_sum_float32_nonunit_rows": 22341534,
+      "B_sum_float64_historical_checker_failure_rows": 65967643
+    },
+    "C_original_binary_probability_pair": {
+      "status": "NOT AVAILABLE",
+      "not_available_is_failure": false
+    },
+    "all_row_fp32_9g_roundtrip": {
+      "rule": "archived decimal -> float32 -> .9g text -> float32; compare uint32 bit patterns",
+      "rows": 101761920,
+      "probability_values": 203523840,
+      "exact_rows": 101761920,
+      "exact_probability_values": 203523840,
+      "p_normal_mismatches": 0,
+      "p_anomaly_mismatches": 0,
+      "status": "PASS",
+      "claim_boundary": "ROUNDTRIP REPRESENTATION CONSISTENT; not BITWISE ORIGINAL VERIFIED"
+    }
+  },
+  "failed_row_explanation": {
+    "P1_PLUS_P3_rows": 65847578,
+    "P2_PLUS_P3_rows": 86587,
+    "checker_specification_failure_rows": 65934165,
+    "explained_rows": 65934165,
+    "unexplained_rows": 0,
+    "true_raw_inconsistency_rows": 0,
+    "partition_complete": true
+  },
+  "root_cause": {
+    "code": "P7_MULTIPLE_CAUSES",
+    "contributing_causes": [
+      "P1_FLOAT32_SOFTMAX_SUM_REPRESENTATION_EFFECT",
+      "P2_SERIALIZATION_SUM_RECONSTRUCTION_EFFECT",
+      "P3_CHECKER_SPECIFICATION_MISMATCH"
+    ],
+    "reason": "All historical checker failures partition into verified P1+P3 and P2+P3 populations; none require class misalignment, invalid probability values, or raw corruption."
+  },
+  "raw_candidate_identity_reconsideration": {
+    "RC1_source_identity_preserved": "PASS",
+    "RC2_all_failed_row_raw_artifacts_readable": "PASS",
+    "RC3_failed_row_artifact_identities_consistent": "PASS",
+    "RC4_class_alignment_anomalies_zero": "PASS",
+    "RC5_nan_or_inf_zero": "PASS",
+    "RC6_probability_outside_unit_interval_zero": "PASS",
+    "RC7_serialization_roundtrip_no_unexplained_mismatch": "PASS",
+    "RC8_every_checker_failure_explained": "PASS",
+    "RC9_unexplained_probability_pair_inconsistencies_zero": "PASS",
+    "RC10_no_evidence_of_raw_corruption": "PASS",
+    "result": "PASS"
+  },
+  "repair_authorization_reconsideration": {
+    "prior_threshold_forensic_artifacts_modified": false,
+    "original_RA2": "FAIL",
+    "reconsidered_RA2": "PASS",
+    "original_RA8": "FAIL",
+    "reconsidered_RA8": "PASS",
+    "inherited_RA1_RA3_through_RA7_RA9_through_RA15": "PASS",
+    "threshold_repair_status": "READY FOR THRESHOLD REPAIR REAUTHORIZATION",
+    "repair_executed_in_this_audit": false
+  },
+  "formal_research_status": {
+    "restart_saturation": "NOT ESTABLISHED",
+    "attack_adequacy": "NOT ESTABLISHED",
+    "formal_P3_clearance": "DENIED",
+    "P3_Diagnostic_v2_formal_integrity": "FAIL",
+    "robustness_claims": "SUSPENDED"
+  },
+  "verdict": "OUTCOME_A"
+}

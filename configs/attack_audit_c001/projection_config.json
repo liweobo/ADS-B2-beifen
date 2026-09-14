@@ -1,0 +1,11 @@
+{
+  "schema_version": "adsb.projection-config.v1",
+  "budget_scope": "normalized_raw6",
+  "derived_difference_consistency": "recomputed_from_raw",
+  "budget_abs_tol": 0.00001,
+  "kinematic_rel_tol": 0.00001,
+  "projection_residual_tol": 0.000001,
+  "alternating_projection_max_iterations": 100,
+  "feasible_random_max_resamples": 50,
+  "config_hash": "e95f393ffbc114f54464320c2c1c20f9242326c621f5fe55b34352e8e7924b0e"
+}

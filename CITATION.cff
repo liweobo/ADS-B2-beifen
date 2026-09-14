@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "During anonymous review, cite this as the CAT-AD Anonymous Review Artifact. After deanonymization or acceptance, cite the final paper and public artifact record."
+title: "CAT-AD: Constrained Adversarial Training for Robust ADS-B Trajectory Anomaly Detection"
+authors:
+  - family-names: "Anonymous"
+    given-names: "Authors"
+version: "anonymous-review"
+date-released: "2026-07-05"
+repository-code: "anonymous-review-artifact"
+abstract: "Anonymous review artifact for constrained adversarial training and robust ADS-B trajectory anomaly detection under targeted anomalous-to-normal evasion."

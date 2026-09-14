@@ -1,0 +1,20 @@
+{
+  "schema_version": "adsb.attack-manifest.v1",
+  "purpose": "frozen training-time attack identity; not an authorization to rerun training",
+  "attack": {
+    "name": "current_training_hybrid",
+    "seen_during_training": true,
+    "differing_dimensions": [],
+    "attack_id": "phys_hybrid_pgd",
+    "loss": "targeted_ce",
+    "steps": 5,
+    "alpha": 0.03,
+    "epsilon": 0.1,
+    "initialization": "clean",
+    "restarts": 1,
+    "projection_schedule": "late_plus_final",
+    "budget_scope": "normalized_raw6",
+    "derived_difference_consistency": "recomputed_from_raw",
+    "config_hash": "60d4d2e2f7e34ba27c10708cc6f855f969cf86d8baf48d87f928558c5a7c440e"
+  }
+}

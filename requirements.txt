@@ -1,0 +1,8 @@
+# ADS-B 实验脚本依赖（python test.py / adsb.run）
+# GPU 版 PyTorch 请按官方指引安装：https://pytorch.org/get-started/locally/
+
+numpy>=1.23.0
+pandas>=1.5.0
+scikit-learn>=1.2.0
+matplotlib>=3.7.0
+torch>=2.0.0

@@ -1,0 +1,33 @@
+{
+  "schema_version": "adsb.c001-p3d-v2-candidate-probability-checker.v1",
+  "checker_purpose": "identify the exact historical class_probability_sum rule that caused the prior Raw Candidate Identity gate to fail",
+  "source": {
+    "file": "E:\\ads-b\\ADS-B2 -beifen\\outputs\\attack_audit_c001\\p3_diagnostic_v2\\threshold_precision_forensic_v1\\forensic_driver.py",
+    "sha256": "9ae44be5948538e8a66f43fb3da0a045c66e312d51aa9267c3cd0b27a8f12638",
+    "function": "scan_rows",
+    "line": 588
+  },
+  "exact_expression": "counters[\"class_probability_sum_failure\"] += int((np.abs((p64 + pnormal) - 1.0) > 2e-8).sum())",
+  "effective_failure_rule": "abs(float64(parsed p_anomaly) + float64(parsed p_normal) - 1.0) > 2e-8",
+  "effective_pass_rule": "abs(float64(parsed p_anomaly) + float64(parsed p_normal) - 1.0) <= 2e-8",
+  "dtype_conversion": {
+    "p_anomaly": "pd.to_numeric(chunk['p_anomaly'], errors='coerce').to_numpy(dtype=np.float64)",
+    "p_normal": "pd.to_numeric(chunk['p_normal'], errors='coerce').to_numpy(dtype=np.float64)",
+    "sum_domain": "numpy.float64"
+  },
+  "comparator": ">",
+  "historical_tolerance": 2e-08,
+  "tolerance_origin": "hard-coded in the immutable prior threshold forensic driver; no external tolerance derivation was found or introduced in this audit",
+  "np_isclose_used": false,
+  "math_isclose_used": false,
+  "exact_equality_used": false,
+  "probability_fields": [
+    "p_normal",
+    "p_anomaly"
+  ],
+  "class_indexes": {
+    "p_normal": 0,
+    "p_anomaly": 1
+  },
+  "checker_modified": false
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "adsb.c001-p3d-v2-candidate-probability-forensic-artifacts.v1",
+  "created_at_utc": "2026-09-14T06:25:24.461Z",
+  "canonical_root": "E:\\ads-b\\ADS-B2 -beifen",
+  "formal_artifact_directory": "outputs/attack_audit_c001/p3_diagnostic_v2/candidate_probability_forensic_v1",
+  "hash_scope": "only the 12 formal artifacts created by this candidate-probability forensic audit",
+  "expected_count": 12,
+  "expected_artifacts": [
+    "probability_forensic_protocol.json",
+    "class_probability_sum_checker.json",
+    "runtime_probability_semantics.json",
+    "probability_archive_semantics.json",
+    "probability_sum_summary.csv",
+    "probability_sum_failed_rows.parquet",
+    "probability_control_rows.csv",
+    "class_alignment_anomalies.csv",
+    "raw_identity_check.json",
+    "probability_forensic_verdict.json",
+    "probability_forensic_report.md",
+    "artifact_hashes.json"
+  ],
+  "artifact_count": 11,
+  "artifacts": [
+    {
+      "path": "probability_forensic_protocol.json",
+      "sha256": "d7efa7f6ac50a4d5bd53fdd50ec697a2b4f072585dfba36228f30a9e830bb2ae",
+      "size_bytes": 8038
+    },
+    {
+      "path": "class_probability_sum_checker.json",
+      "sha256": "af9eea6e8ca32aedf48f986382161dddd7d83de556ba7dca0f14a8eae861cafb",
+      "size_bytes": 1539
+    },
+    {
+      "path": "runtime_probability_semantics.json",
+      "sha256": "aab6c0f5ab8365d107edee1455fe258b3ac397584772afe13a56009c757b5b51",
+      "size_bytes": 1952
+    },
+    {
+      "path": "probability_archive_semantics.json",
+      "sha256": "b6ec999b6b2ceac8810447bd7de3651d27af1227d30fb764d0457403a68aa539",
+      "size_bytes": 3235
+    },
+    {
+      "path": "probability_sum_summary.csv",
+      "sha256": "44959c06a3c4171f4ea03800224bb026af7b8c16bd99b1eab9d205b4c306f789",
+      "size_bytes": 71123
+    },
+    {
+      "path": "probability_sum_failed_rows.parquet",
+      "sha256": "6e9c78a81afd093c9372a4bd29afc09b63cfba49ef093b873b202eed8372649c",
+      "size_bytes": 1989219589
+    },
+    {
+      "path": "probability_control_rows.csv",
+      "sha256": "5bbd6326d9f8b9765764fecd5dcdf14c41815bcb89a659758922534a337f507b",
+      "size_bytes": 2192347
+    },
+    {
+      "path": "class_alignment_anomalies.csv",
+      "sha256": "b069735d83a3824f1bae0a9ea8fa897308e3d3d6892b3f8665043381c9b97ee0",
+      "size_bytes": 163
+    },
+    {
+      "path": "raw_identity_check.json",
+      "sha256": "19974977982f352153133f486a87fc5e89bbb20dd9b94777f49145c5910af093",
+      "size_bytes": 204866
+    },
+    {
+      "path": "probability_forensic_verdict.json",
+      "sha256": "fc4fedfdb5b6accacc0dd0de7b1db59e2c9b1de616b05a2467203ce6c885a032",
+      "size_bytes": 5791
+    },
+    {
+      "path": "probability_forensic_report.md",
+      "sha256": "6df3e2cdffc04241e31983049c9dc3bdd97ab8deabd8d4dd69311b0e26f188ed",
+      "size_bytes": 7596
+    }
+  ],
+  "self_excluded": true,
+  "self_exclusion_reason": "artifact_hashes.json cannot contain its own stable cryptographic digest without recursion; its existence and JSON validity are checked separately",
+  "verified_peer_artifact_count": 11,
+  "missing": [],
+  "missing_count": 0,
+  "hash_mismatches": [],
+  "hash_mismatch_count": 0,
+  "malformed_json": [],
+  "malformed_json_count": 0,
+  "status": "PASS"
+}

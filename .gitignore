@@ -1,0 +1,68 @@
+# Local credentials and machine-specific configuration
+.env
+.env.*
+*.local
+*.pem
+*.key
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Codex/local helper state
+.agents/
+.tools/
+
+# Generated experiment data and heavy artifacts
+/outputs/
+/output/
+/results/
+/data/
+/datasets/
+/checkpoints/
+**/checkpoints/
+**/raw_results/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.npy
+*.npz
+*.parquet
+*.gz
+
+# Local sample data
+/sample_adsb_decoded.csv
+
+# LaTeX build products
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc
+
+# General temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+~$*

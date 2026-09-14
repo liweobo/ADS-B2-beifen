@@ -1,0 +1,82 @@
+{
+  "schema_version": "adsb.c001-p3d-v2-probability-archive-semantics.v1",
+  "sources": {
+    "attack_engine": {
+      "file": "E:\\ads-b\\ADS-B2 -beifen\\adsb\\attack_audit.py",
+      "sha256": "37765a04ead026dd0520848ba5fc5267075c6088630b6f6f1705039718c58567"
+    },
+    "aggregation_writer": {
+      "file": "E:\\ads-b\\ADS-B2 -beifen\\adsb\\p2_step_size_restart.py",
+      "sha256": "56a7df03a01b6fc606184a8f286b2f1a8c646f17e71a3071d9188bd3c5e92ee5"
+    }
+  },
+  "probability_fields": {
+    "p_normal": {
+      "class_index": 0,
+      "runtime_source": "torch.softmax(logits, dim=1)[:, 0]"
+    },
+    "p_anomaly": {
+      "class_index": 1,
+      "runtime_source": "torch.softmax(logits, dim=1)[:, 1]"
+    }
+  },
+  "same_runtime_softmax": true,
+  "same_diagnostic_row": true,
+  "derived_by_one_minus_other_probability": false,
+  "class_order_conversion": false,
+  "tensor_export": "each field uses detach().cpu().tolist() on the same targeted_losses result",
+  "python_float_intermediate": true,
+  "text_serialization": {
+    "writer": "csv.DictWriter",
+    "conversion": "_float",
+    "finite_float_format": ".9g",
+    "storage_dtype": "decimal text with nine significant digits",
+    "per_task_storage": "gzip CSV",
+    "aggregate_storage": "concatenated gzip CSV members copied without probability recomputation"
+  },
+  "aggregate_paths": {
+    "margin": "E:\\ads-b\\ADS-B2 -beifen\\outputs\\attack_audit_c001\\p3_diagnostic_v2\\margin\\raw_results\\per_step_restart_records.csv.gz",
+    "cw": "E:\\ads-b\\ADS-B2 -beifen\\outputs\\attack_audit_c001\\p3_diagnostic_v2\\cw\\raw_results\\per_step_restart_records.csv.gz"
+  },
+  "npz_semantics": {
+    "candidate_tensor_dtype": "float32",
+    "selected_probability_arrays": [
+      "final_p_anomaly",
+      "best_p_anomaly"
+    ],
+    "p_normal_binary_array_present": false,
+    "complete_original_binary_probability_pair_present": false,
+    "representation_C": "NOT AVAILABLE for per-step p_normal/p_anomaly pairs"
+  },
+  "per_step_logits_archived": false,
+  "per_step_candidate_tensor_archived": false,
+  "per_step_logit_replay": "NOT AVAILABLE",
+  "all_row_fp32_9g_roundtrip_validation": {
+    "checked_at_utc": "2026-09-14T06:25:24.461Z",
+    "rule": "archived decimal -> float32 -> .9g text -> float32; compare uint32 bit patterns",
+    "scope": "all rows in both Margin and CW aggregate per-step restart gzip CSV streams",
+    "rows": 101761920,
+    "probability_values": 203523840,
+    "roundtrip_exact_rows": 101761920,
+    "roundtrip_exact_probability_values": 203523840,
+    "p_normal_roundtrip_mismatches": 0,
+    "p_anomaly_roundtrip_mismatches": 0,
+    "unexplained_row_mismatches": 0,
+    "nonfinite_probability_values": 0,
+    "by_loss": {
+      "margin": {
+        "rows": 50880960,
+        "p_normal_roundtrip_mismatches": 0,
+        "p_anomaly_roundtrip_mismatches": 0
+      },
+      "cw": {
+        "rows": 50880960,
+        "p_normal_roundtrip_mismatches": 0,
+        "p_anomaly_roundtrip_mismatches": 0
+      }
+    },
+    "status": "PASS",
+    "claim_boundary": "ROUNDTRIP REPRESENTATION CONSISTENT; BITWISE ORIGINAL VERIFIED is not claimed because paired original binary per-step p_normal/p_anomaly values were not archived"
+  },
+  "archive_modified": false
+}

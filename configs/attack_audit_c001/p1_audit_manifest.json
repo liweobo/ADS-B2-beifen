@@ -1,0 +1,56 @@
+{
+  "schema_version": "adsb.c001-p1-audit-manifest.v1",
+  "stage": "P1_STEP_CONVERGENCE_ONLY",
+  "dataset": {
+    "source": "sample_adsb_decoded.csv",
+    "repeated_split_seeds": [42, 43, 44, 45, 46],
+    "explicit_injection_seed_policy": "train=split_seed+101; validation=split_seed+202; test=split_seed+303",
+    "legacy_results_are_distinct_version": true
+  },
+  "training": {
+    "models": ["BiLSTM-ERM", "CAT-AD"],
+    "training_attack_id": "phys_hybrid_pgd",
+    "checkpoint_schema": "adsb.detector-checkpoint.v2",
+    "retain_all_scheduled_runs": true
+  },
+  "matrix": {
+    "attacks": ["norm_pgd", "phys_projection_pgd", "phys_penalty_pgd", "phys_hybrid_pgd"],
+    "steps": [5, 10, 20, 50],
+    "restarts": 1,
+    "initialization": "clean",
+    "loss": "targeted_ce",
+    "epsilon": 0.1,
+    "alpha": 0.03,
+    "precision": "float32",
+    "evaluation_batch_size": 512,
+    "target_label": 0,
+    "attacked_support": "original_label_anomaly_only",
+    "threshold": "frozen_clean_validation_threshold_per_model",
+    "expected_configurations": 160
+  },
+  "projection": {
+    "budget_scope": "normalized_raw6",
+    "derived_difference_consistency": "recomputed_from_raw",
+    "budget_abs_tol": 0.00001,
+    "kinematic_rel_tol": 0.00001,
+    "projection_residual_tol": 0.000001,
+    "alternating_projection_max_iterations": 100,
+    "feasible_random_max_resamples": 50
+  },
+  "attack_adequacy_operational_standards": {
+    "max_per_seed_asr_increment_k20_to_k50": 0.01,
+    "max_per_seed_asr_increment_r5_to_r10": 0.005,
+    "max_relative_median_target_loss_decrease": 0.01,
+    "max_whitebox_asr_deficit_vs_transfer_or_gradient_free": 0.01,
+    "minimum_directionally_compatible_attack_losses": 2
+  },
+  "p5_preregistered_spsa": {
+    "subset_per_repeated_split": 128,
+    "objective": "targeted_logit_margin",
+    "directions_per_iteration": 16,
+    "iterations": 128,
+    "maximum_queries_per_sample": 4096,
+    "paired_subset_and_seed_across_models": true
+  },
+  "config_hash": "33852aa5e6d2d1588c0fc633c0c7685952df0b461475aa53e302e63d62446928"
+}

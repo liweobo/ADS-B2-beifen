@@ -1,0 +1,212 @@
+{
+  "protocol_id": "C0-01_P3_DIAGNOSTIC_V2_CANDIDATE_PROBABILITY_FORENSIC_V1",
+  "frozen_at_utc": "2026-09-14T05:08:24.7270780Z",
+  "canonical_root": "E:\\ads-b\\ADS-B2 -beifen",
+  "goal": "resolve class_probability_sum integrity failure",
+  "scope": {
+    "new_attack_allowed": false,
+    "margin_cw_rerun_allowed": false,
+    "ce_rerun_allowed": false,
+    "raw_modification_allowed": false,
+    "archived_probability_modification_allowed": false,
+    "threshold_checker_modification_allowed": false,
+    "reaggregation_allowed": false,
+    "loss_interpretation_allowed": false,
+    "model_execution_allowed": false,
+    "p4_p6_allowed": false,
+    "manuscript_modification_allowed": false,
+    "project_backup_or_archive_allowed": false,
+    "project_wide_hash_allowed": false
+  },
+  "inherited_source_identities": {
+    "p2c_final_integrity_v2": "PASS",
+    "r40_snapshot_sha256": "842d399a647699fdd7b038df5efb6d2907499cad094be44dfee47f2f5f528270",
+    "frozen_attack_fingerprint_sha256": "afd1389066e1c87fec8d6f9da42e4f7e2fb3384343f214d31c8eccf79bdbcf4f",
+    "p3_diagnostic_v2_configuration_sha256": "c9caa0281c7a314d78fea861604874100393ab6d5f1ae00d46d88926e06894e4",
+    "threshold_rows_relative_path": "outputs/attack_audit_c001/p3_diagnostic_v2/threshold_precision_forensic_v1/row_level_audit/all_threshold_rows.parquet",
+    "threshold_rows_expected_sha256": "586b932fd11c5113eea9e81c622203e6e058ee040fc5ee32ac9ec36810eed8ea",
+    "threshold_forensic_verdict": "THRESHOLD FORENSIC INCONCLUSIVE",
+    "original_ra2": "FAIL",
+    "original_ra8": "FAIL"
+  },
+  "original_checker_rule": {
+    "source_relative_path": "outputs/attack_audit_c001/p3_diagnostic_v2/threshold_precision_forensic_v1/forensic_driver.py",
+    "source_line": 588,
+    "expression": "np.abs((p64 + pnormal) - 1.0) > 2e-8",
+    "parsed_probability_dtype": "numpy.float64",
+    "comparator": ">",
+    "historical_tolerance": 2e-08,
+    "new_tolerance_introduced": false,
+    "probability_fields": [
+      "p_normal",
+      "p_anomaly"
+    ],
+    "class_mapping": {
+      "p_normal": 0,
+      "p_anomaly": 1
+    }
+  },
+  "scan_plan": {
+    "mode": "streaming_column_projection",
+    "full_threshold_predicate_rescan": false,
+    "second_full_row_table_allowed": false,
+    "failed_rows_only_detail_table": true,
+    "grouping_dimensions": [
+      "loss",
+      "model",
+      "attack_family",
+      "K",
+      "split"
+    ],
+    "summary_statistics": [
+      "count",
+      "original_checker_failure_count",
+      "original_checker_failure_rate",
+      "max_abs_sum_error",
+      "median_abs_sum_error",
+      "p95_abs_sum_error",
+      "p99_abs_sum_error",
+      "p99_9_abs_sum_error",
+      "nan_count",
+      "positive_inf_count",
+      "negative_inf_count",
+      "p0_lt_zero_count",
+      "p1_lt_zero_count",
+      "p0_gt_one_count",
+      "p1_gt_one_count"
+    ]
+  },
+  "representations": {
+    "A": {
+      "name": "ARCHIVED_DECIMAL_LOADED",
+      "p0": "float64(parsed archived p_normal)",
+      "p1": "float64(parsed archived p_anomaly)",
+      "sum": "float64(p0_A + p1_A)"
+    },
+    "B": {
+      "name": "FP32_ROUND_TRIP",
+      "p0": "float32(archived p_normal)",
+      "p1": "float32(archived p_anomaly)",
+      "sum_float32": "float32(p0_B + p1_B)",
+      "sum_float64": "float64(p0_B) + float64(p1_B)"
+    },
+    "C": {
+      "name": "ORIGINAL_BINARY_ARCHIVE",
+      "rule": "inspect when an independently archived original binary probability pair is available; otherwise NOT AVAILABLE",
+      "unavailable_is_failure": false
+    }
+  },
+  "serialization_roundtrip_rule": {
+    "archive_text_precision": ".9g",
+    "test": "parse archived decimal, cast to float32, format as .9g, parse and cast to float32, then compare float32 bit patterns",
+    "status_if_no_independent_original_fp32_bytes": "ROUNDTRIP REPRESENTATION CONSISTENT",
+    "forbidden_claim_without_independent_bytes": "BITWISE ORIGINAL VERIFIED",
+    "unexplained_mismatch_definition": "float32 bit pattern changes across the frozen .9g round-trip test"
+  },
+  "class_alignment_rule": {
+    "source_mapping_required": "normal=class 0; anomaly=class 1",
+    "same_row_probability_pair_required": true,
+    "identity_fields": [
+      "task_id",
+      "sample_id",
+      "restart",
+      "step",
+      "loss",
+      "K",
+      "model",
+      "attack_family",
+      "split"
+    ],
+    "exact_argmax_relation": "argmax_success == (p_normal >= p_anomaly)",
+    "threshold_relation_is_inherited": "archived threshold flag provenance and A!=B=0 are reused; threshold predicates are not rescanned",
+    "anomaly_output_policy": "output anomalous rows only"
+  },
+  "control_sample": {
+    "deterministic_seed": 20260914,
+    "maximum_total_rows": 10000,
+    "maximum_per_loss_per_stratum": 500,
+    "strata": [
+      "checker_pass_minimum_abs_sum_error",
+      "checker_pass_largest_abs_sum_error",
+      "checker_pass_nearest_original_checker_boundary",
+      "checker_failed"
+    ],
+    "boundary_reference": "original checker historical tolerance 2e-8",
+    "sampling_rule": "deterministic priority sampling within each loss and stratum; no result-dependent rule changes"
+  },
+  "raw_identity_rule": {
+    "scope": "unique raw artifacts referenced by all checker-failed rows and the control sample",
+    "reuse_prior_full_identity_evidence": true,
+    "rehash_entire_p3_raw": false,
+    "checks": [
+      "artifact_exists",
+      "recorded_size_matches_when_available",
+      "recorded_sha256_matches_when_already_available",
+      "task_sample_restart_step_identity_consistent",
+      "gzip_or_npz_readable",
+      "no_truncation",
+      "no_malformed_row"
+    ]
+  },
+  "failure_classification_rule": {
+    "S1": "finite, in range, aligned, identity-valid and round-trip coherent, with only cross-precision sum deviation",
+    "S2": "data remain valid but the original checker precision-domain assumption produces failure",
+    "S3": "nonfinite, out of range, swapped/misaligned, task-mismatched, corrupt, or otherwise impossible probability pair",
+    "allowed_root_causes": [
+      "P1_FLOAT32_SOFTMAX_SUM_REPRESENTATION_EFFECT",
+      "P2_SERIALIZATION_SUM_RECONSTRUCTION_EFFECT",
+      "P3_CHECKER_SPECIFICATION_MISMATCH",
+      "P4_CLASS_ALIGNMENT_MISMATCH",
+      "P5_PROBABILITY_RANGE_OR_NONFINITE_ERROR",
+      "P6_RAW_ARTIFACT_CORRUPTION",
+      "P7_MULTIPLE_CAUSES",
+      "P8_INCONCLUSIVE"
+    ],
+    "allowed_supported_combinations": [
+      "P1+P3",
+      "P2+P3"
+    ],
+    "no_arbitrary_tolerance": true
+  },
+  "reconsideration_rule": {
+    "required_all_pass": [
+      "RC1 source identity preserved",
+      "RC2 all failed-row raw artifacts readable",
+      "RC3 failed-row artifact identities consistent",
+      "RC4 class alignment anomalies = 0",
+      "RC5 NaN/Inf = 0",
+      "RC6 probability outside [0,1] = 0",
+      "RC7 serialization round-trip has no unexplained mismatch",
+      "RC8 every class_probability_sum failure is explained by verified finite-precision, serialization, or checker semantics",
+      "RC9 unexplained probability pair inconsistencies = 0",
+      "RC10 no evidence of raw corruption"
+    ],
+    "ra_scope": [
+      "RA2 Raw Candidate Identity",
+      "RA8 No Raw Corruption"
+    ],
+    "old_forensic_artifacts_must_remain_unchanged": true,
+    "repair_execution_allowed": false
+  },
+  "formal_research_status_frozen": {
+    "restart_saturation": "NOT ESTABLISHED",
+    "formal_attack_adequacy": "NOT ESTABLISHED",
+    "formal_p3_clearance": "DENIED",
+    "p3_diagnostic_v2_current_formal_integrity": "FAIL",
+    "robustness_claims": "SUSPENDED"
+  },
+  "required_artifacts": [
+    "probability_forensic_protocol.json",
+    "class_probability_sum_checker.json",
+    "runtime_probability_semantics.json",
+    "probability_archive_semantics.json",
+    "probability_sum_summary.csv",
+    "probability_sum_failed_rows.parquet",
+    "probability_control_rows.csv",
+    "class_alignment_anomalies.csv",
+    "raw_identity_check.json",
+    "probability_forensic_verdict.json",
+    "probability_forensic_report.md",
+    "artifact_hashes.json"
+  ]
+}

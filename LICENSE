@@ -1,0 +1,28 @@
+CAT-AD Anonymous Review Artifact Use Statement
+
+This artifact is provided for anonymous peer review and artifact evaluation of
+the CAT-AD submission.
+
+Permitted review uses:
+
+- inspect the manuscript source, code, generated tables, figures, manifests,
+  and local preview PDF;
+- run the documented no-download verification commands;
+- reproduce the archived benchmark checks on a local review machine; and
+- retain local copies as needed for confidential review and artifact-evaluation
+  processes.
+
+Restrictions during anonymous review:
+
+- do not redistribute the artifact publicly;
+- do not use the attack code against live aviation systems, receivers,
+  aircraft, or operational infrastructure;
+- do not use the artifact to deanonymize the authors; and
+- do not present this anonymous review artifact as an accepted, camera-ready,
+  certified-safe, or officially badged release.
+
+Public release license:
+
+This anonymous review statement is not a public open-source license. A public
+release license, if any, should be selected by the authors for the
+deanonymized/camera-ready artifact.

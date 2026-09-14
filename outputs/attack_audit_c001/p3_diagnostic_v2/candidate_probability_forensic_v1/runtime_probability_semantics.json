@@ -1,0 +1,54 @@
+{
+  "schema_version": "adsb.c001-p3d-v2-runtime-probability-semantics.v1",
+  "frozen_attack_fingerprint_sha256": "afd1389066e1c87fec8d6f9da42e4f7e2fb3384343f214d31c8eccf79bdbcf4f",
+  "attack_engine": {
+    "file": "E:\\ads-b\\ADS-B2 -beifen\\adsb\\attack_audit.py",
+    "sha256": "37765a04ead026dd0520848ba5fc5267075c6088630b6f6f1705039718c58567"
+  },
+  "runtime_path": [
+    {
+      "function": "run_attack",
+      "line": 553,
+      "expression": "with _fp32_eval_mode(model)"
+    },
+    {
+      "function": "run_attack",
+      "line": 567,
+      "expression": "logits = model(packed.float())"
+    },
+    {
+      "function": "targeted_losses",
+      "line": 395,
+      "expression": "probabilities = torch.softmax(logits, dim=1)"
+    },
+    {
+      "function": "targeted_losses",
+      "lines": "400-401",
+      "expression": "p_normal = probabilities[:, 0]; p_anomaly = probabilities[:, 1]"
+    }
+  ],
+  "logits_dtype": "torch.float32",
+  "softmax_dtype": "torch.float32",
+  "model_parameter_dtype": "torch.float32",
+  "input_cast": "packed.float()",
+  "autocast_active": false,
+  "autocast_evidence": "_fp32_eval_mode enters torch.autocast(..., enabled=False) at attack_audit.py:426",
+  "class_count": 2,
+  "normal_class_index": 0,
+  "anomaly_class_index": 1,
+  "target_class_index": 0,
+  "class_mapping_validation": "AttackConfig.validate requires (normal_class, anomaly_class, target_label) == (0, 1, 0)",
+  "runtime_device": "CUDA when selected by resolve_device, otherwise CPU; the device was not independently archived",
+  "probability_extraction": {
+    "p_normal": "probabilities[:, 0]",
+    "p_anomaly": "probabilities[:, 1]",
+    "same_softmax_tensor": true
+  },
+  "archive_export": {
+    "file": "E:\\ads-b\\ADS-B2 -beifen\\adsb\\attack_audit.py",
+    "lines": "732-733",
+    "p_normal": "losses['p_normal'].detach().cpu().tolist()",
+    "p_anomaly": "losses['p_anomaly'].detach().cpu().tolist()"
+  },
+  "logit_replay": "NOT AVAILABLE"
+}

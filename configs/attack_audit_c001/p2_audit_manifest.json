@@ -1,0 +1,131 @@
+{
+  "schema_version": "adsb.c001-p2-audit-manifest.v1",
+  "stage": "P2_STEP_SIZE_INITIALIZATION_RESTART_ONLY",
+  "prohibited_stages": ["P3", "P4", "P5", "P6"],
+  "p1_prerequisites": {
+    "checkpoint_integrity_gate": "PASS",
+    "data_identity_gate": "PASS",
+    "p1_integrity_gate": "PASS",
+    "p1_step_convergence_verdict": "NOT CONVERGED"
+  },
+  "identity": {
+    "repeated_split_seeds": [42, 43, 44, 45, 46],
+    "models": ["BiLSTM-ERM", "CAT-AD"],
+    "checkpoint_source": "outputs/attack_audit_c001/p1/training",
+    "dataset_manifest_source": "outputs/attack_audit_c001/p1/data",
+    "checkpoint_schema": "adsb.detector-checkpoint.v2",
+    "require_exact_p1_checkpoint_sha256": true,
+    "require_exact_p1_dataset_split_normalization_sample_hashes": true,
+    "threshold": "frozen_clean_validation_threshold_per_checkpoint",
+    "precision": "float32",
+    "evaluation_batch_size": 512
+  },
+  "threat_model": {
+    "epsilon": 0.1,
+    "budget_scope": "normalized_raw6",
+    "derived_difference_consistency": "recomputed_from_raw",
+    "attack_target": "normal_class_0",
+    "attack_support": "original_label_anomaly_only",
+    "loss": "targeted_ce",
+    "candidate_policy": "per_sample_strongest_valid_candidate",
+    "multi_restart_final_policy": "per_sample_strongest_valid_restart_final",
+    "normal_samples": "bitwise_invariance_control"
+  },
+  "projection": {
+    "budget_abs_tol": 0.00001,
+    "kinematic_rel_tol": 0.00001,
+    "projection_residual_tol": 0.000001,
+    "alternating_projection_max_iterations": 100,
+    "feasible_random_max_resamples": 50,
+    "strict_intersection_projection": true
+  },
+  "step_size_grid": {
+    "steps": [20, 50],
+    "alpha_rules": {
+      "fixed_003": "0.03",
+      "eps_over_k": "epsilon/K",
+      "two_eps_over_k": "2*epsilon/K",
+      "eps_over_4": "epsilon/4"
+    }
+  },
+  "initializations": {
+    "norm_pgd": ["clean", "uniform_budget"],
+    "phys_projection_pgd": ["clean", "feasible_random"],
+    "phys_penalty_pgd": ["clean", "uniform_budget"],
+    "phys_hybrid_pgd": ["clean", "feasible_random"]
+  },
+  "p2_a": {
+    "attacks": ["norm_pgd", "phys_projection_pgd", "phys_penalty_pgd", "phys_hybrid_pgd"],
+    "restarts": 1,
+    "logical_configurations": 640,
+    "maximum_reusable_p1_configurations": 80,
+    "expected_new_executions_if_maximum_reuse_qualifies": 560,
+    "reuse_only_on_exact_task_and_config_hash": true,
+    "reuse_identity_fields": [
+      "checkpoint_sha256",
+      "dataset_hash",
+      "split_hash",
+      "normalization_hash",
+      "sample_manifest_hash",
+      "code_fingerprint",
+      "attack_id",
+      "steps",
+      "epsilon",
+      "alpha",
+      "initialization",
+      "loss",
+      "threshold",
+      "budget_scope",
+      "projection_configuration",
+      "candidate_selection_policy",
+      "config_hash"
+    ],
+    "reused_record_required_fields": [
+      "execution_status",
+      "reused_from",
+      "source_artifact_hash",
+      "independent_metric_recalculation_status"
+    ],
+    "retain_all_alpha_results": true
+  },
+  "alpha_selection": {
+    "scope": "one_rule_per_attack_family_shared_across_models_seeds_steps_and_random_initialization",
+    "ordered_criteria": [
+      "exclude_nan_numeric_error_or_large_scale_projection_failure",
+      "maximize_pooled_per_sample_best_asr_across_both_models_and_all_seeds",
+      "if_tied_minimize_target_ce_then_maximize_target_margin",
+      "if_still_tied_minimize_final_best_gap_and_oscillation",
+      "lexicographic_rule_id_only_as_final_deterministic_tie_break"
+    ],
+    "cat_ad_advantage_must_not_be_used": true
+  },
+  "p2_b": {
+    "steps": [20, 50],
+    "initialization": {
+      "norm_pgd": "uniform_budget",
+      "phys_projection_pgd": "feasible_random",
+      "phys_penalty_pgd": "uniform_budget",
+      "phys_hybrid_pgd": "feasible_random"
+    },
+    "base_restarts": [1, 5],
+    "conditional_restart": 10,
+    "r10_trigger": "any_seed_r1_to_r5_best_asr_increment_gte_0.005",
+    "r10_scope_on_trigger": "all_models_seeds_and_steps_for_that_attack_family",
+    "r5_must_contain_r1_restart_zero": true,
+    "r10_must_contain_all_r5_restarts": true
+  },
+  "operational_standards": {
+    "max_per_seed_asr_increment_k20_to_k50": 0.01,
+    "max_relative_median_target_loss_decrease": 0.01,
+    "max_per_seed_asr_increment_r5_to_r10": 0.005,
+    "recall_plus_threshold_asr_abs_tol": 1e-12
+  },
+  "native_log_requirements": {
+    "step": true,
+    "restart_id": true,
+    "posthoc_sequence_reconstruction_prohibited": true
+  },
+  "result_retention": "all_directions_including_failures_nan_nonconvergence_and_unfavorable",
+  "result_direction_used_for_scheduling": false,
+  "config_hash": "8a01fae1717cef59b7b97fc5f7b52be7f8df352e87085020e4509ac81d34f352"
+}
